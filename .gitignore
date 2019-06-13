@@ -1,1 +1,3 @@
 *.csv
+__pycache__/
+create mock holdout set.ipynb
