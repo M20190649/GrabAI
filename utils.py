@@ -116,19 +116,18 @@ def gen_features(df, dt, dt_list=None, is_train=True, name_prefix=None):  # dt i
     X = {}
 
     # mean and other statistics for X period
-    for k in range(0, 1):  # for past k days
-        for j in range(0, 3):  # for past j hours
-            for i in [2, 3, 4, 6, 8]:  # MA of 30mins to 2 hr
-                tmp = get_timespan_15(df, dt - timedelta(days=k) - timedelta(hours=j) - timedelta(minutes=15 * i), dt)
-                X['mean_%s_%s_%s' % (k, j, i)] = tmp.mean(axis=1).values
-                X['diff_%s_%s_%s_mean' % (k, j, i)] = tmp.diff(axis=1).mean(axis=1).values
-                X['mean_%s_%s_%s_decay' % (k, j, i)] = (tmp * np.power(0.9, np.arange(len(tmp.columns))[::-1])).sum(
-                    axis=1).values
-                X['mean_%s_%s_%s' % (k, j, i)] = tmp.mean(axis=1).values
-                X['median_%s_%s_%s' % (k, j, i)] = tmp.median(axis=1).values
-                X['min_%s_%s_%s' % (k, j, i)] = tmp.min(axis=1).values
-                X['max_%s_%s_%s' % (k, j, i)] = tmp.max(axis=1).values
-                X['std_%s_%s_%s' % (k, j, i)] = tmp.std(axis=1).values
+    for j in range(0, 3):  # for past j hours
+        for i in [2, 3, 4, 6, 8]:  # MA of 30mins to 2 hr
+            tmp = get_timespan_15(df, dt - timedelta(hours=j) - timedelta(minutes=15 * i), dt)
+            X['mean_%s_%s' % (j, i)] = tmp.mean(axis=1).values
+            X['diff_%s_%s_mean' % (j, i)] = tmp.diff(axis=1).mean(axis=1).values
+            X['mean_%s_%s_decay' % (j, i)] = (tmp * np.power(0.9, np.arange(len(tmp.columns))[::-1])).sum(
+                axis=1).values
+            X['mean_%s_%s' % (j, i)] = tmp.mean(axis=1).values
+            X['median_%s_%s' % (j, i)] = tmp.median(axis=1).values
+            X['min_%s_%s' % (j, i)] = tmp.min(axis=1).values
+            X['max_%s_%s' % (j, i)] = tmp.max(axis=1).values
+            X['std_%s_%s' % (j, i)] = tmp.std(axis=1).values
 
     X = pd.DataFrame(X)
 
@@ -180,3 +179,46 @@ def extract_time(dt):
 # get range of demand values for specified time range
 def get_timespan_15(df, startTime, endTime, freq='15min'):  # inclusive
     return df[pd.date_range(startTime, endTime, freq=freq)]
+
+# ========================================================
+# Preprocessing
+
+# Parse datetime into separate columns, using arbitrary start date, modifies in place
+def parse_datetime(df, start_date):
+    # Convert 'day' and 'timestamp' cols to datetime
+    df[['hour', 'minute']] = df['timestamp'].str.split(':', expand=True)
+    df['datetime'] = df['day'].apply(lambda x: start_date + pd.to_timedelta(x, unit='D') - timedelta(days=1))
+    df['day'] = df['datetime'].apply(lambda x: int(x.strftime('%d')))
+    df['month'] = df['datetime'].apply(lambda x: int(x.strftime('%m')))
+    df['dow'] = (df['day'] - 1) % 7
+
+    # require unique for index
+    df['datetime'] = pd.to_datetime(dict(year=2019, month=df.month, day=df.day, hour=df.hour, minute=df.minute))
+
+
+# Transform dataset such that dates are the columns, rows are the locations and cells are the demand values.
+# Also fill missing dates.
+def transform_df(df, start_date, num_days):
+    df_transformed = df.set_index(
+        ["geohash6", "datetime"])[["demand"]].unstack(
+        level=-1).fillna(0)
+    df_transformed.columns = df_transformed.columns.get_level_values(1)
+
+    # fill in missing timestamp cols (all on 18/4)
+    start_date = start_date
+    end_date = start_date + timedelta(days=num_days)
+    missing_cols = sorted(list(
+        set(pd.date_range(start_date, end_date, freq='15min').values).difference(set(df_transformed.columns.values))))[
+                   :-1]  # get rid of 6/1
+
+    missing_dates = {}
+    for i in missing_cols:
+        missing_dates[i] = [0] * len(df_transformed.index)
+    missing_dates = pd.DataFrame(missing_dates)
+    missing_dates.index = df_transformed.index
+
+    df_transformed = pd.concat([df_transformed, missing_dates], axis=1)
+    df_transformed = df_transformed.reindex(sorted(df_transformed.columns), axis=1)
+    df_transformed.columns = pd.DatetimeIndex(df_transformed.columns)
+
+    return df_transformed
