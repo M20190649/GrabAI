@@ -1,4 +1,5 @@
 # GrabAI
+
 Grab organised the Grab AI for SEA Challenges in 2019, hosting 3 different AI challenges.
 This is my submission for the first challenge - Traffic Management.
 I have included the final end-to-end jupyter notebook, initial notebooks for preprocessing, EDA, model creation, 
@@ -20,9 +21,13 @@ For Grab officials evaluating my submission, please:
   1. Setup virtualenv with required libraries beforehand using 'requirements.txt'.
   2. Place the train set (named 'training.csv') and holdout set (named 'holdout.csv'), into the folder named 'data_raw'. </br>
   Holdout set should be in the same format as train set and should have the demand values filled in (don't worry, holdout values are only used for labels, not features).
-  3. Then, run the 'Full Pipeline' jupyter notebook. This notebook will handle the entire process, from preprocessing, feature generation to demand prediction using the model. (It may take 10-20mins for the entire process).
+  3. Then, run the 'Full Pipeline' jupyter notebook. This notebook will handle the entire process, from preprocessing, feature generation to predicting using the model. (It may take 10-20mins for the entire process).
   
 At the end of the notebook execution, the overall holdout rmse will be displayed, and the predicted T+1 to T+5 values are saved as a csv file for inspection.
+
+_Note: As I am slightly confused regarding the way the holdout set is handled, and there is likely not enough time to ask and modify my code, I opted to
+assume that the holdout set contains only the T+1 -> T+5 labels. Thus, my script will read the holdout set and predict for every sample in the holdout set, 
+saving predictions as a .csv file._ 
 
 # Evaluation results
 
@@ -49,12 +54,14 @@ up to T+1 t predict T+2 and so on. This approach further boosted the holdout rms
 
 ![Feature and label extraction in Rolling forecast model](./images/extraction_rolling_forecast.png?raw=true "Feature and label extraction in Rolling forecast model")
 
-As prediction time T is not specified by Grab, and it has mentioned at the briefing in Singapore to expect the holdout set to be similar to the training set given
-(I assume this means in distribution of NaN and non-NaN values), I assumed that T would be random and multiple for every location and altered the approach accordingly.
-This also gives us a good spread of prediction times similar to a practical scenario.
-
-![Validation vs holdout set](./images/extraction_val_holdout.png?raw=true "Validation vs holdout set")
-
 The prediction results are as follows:
 
 ![RMSE scores](./images/rmse_val.png?raw=true "RMSE scores")
+
+# Further Improvements:
+
+Initially, I also used aggregated features by grouping the dataset according the cluster ids/lat/long I had previously generated during Geo_EDA,
+which improved rmse by about 0.005 - 0.01. However, it worsened computation time significantly, so I have removed it for this competition.
+
+Also, I built a basic lstm model, using the transformed dataset. It also achieved an rmse of about 0.032, possibly validating this LGBM model.
+Given more time, perhaps I could have built an ensemble regressor which should outperform individual regressors.
