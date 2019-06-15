@@ -1,11 +1,9 @@
 # Data cleansing
 
-Input: training.csv<br/>
-Output: training_transformed.csv
+_Input: training.csv<br/>
+Output: training_transformed.csv_
 
-Other than doing some data cleansing, I did some preliminary scrubbing/cleansing to get an intuition for the given dataset, from which I crafted my approach. 
-
-Here are some of our findings:
+Other than doing some data cleansing, I did some preliminary scrubbing/cleansing to get an intuition for the given dataset, from which I crafted my approach. Here are some of our findings:
 
 1. There is a total of 4.2 million records, with demand values are normalized between 0 and 1 and no null values. <br/>
 There are 1329 locations, 61 days/5856 timestamps (15min intervals). <br/> Datatypes and string formats are all correct, no duplicate timestamps etc.
