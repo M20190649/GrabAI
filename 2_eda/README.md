@@ -2,6 +2,9 @@ For more in depth EDA, I approached the issue from two perspectives: demand vs g
 
 # Geo EDA
 
+Input: training.csv
+Output: cluster_df.csv
+
 The locations given are in the form of a grid, on a anonymised region. I plotted the total demand vs location on a map, shown below:
 
 On the assumption that demand in any location is likely to be influenced by demand in its neighboring locations,
@@ -9,12 +12,16 @@ I executed some basic clustering schemes on the locations based on demand and co
 The cluster ids for the locations, for each clustering schemes, are recorded in cluster_df.csv.
 These can be used as additional features, or used to aggregate the dataset to generate aggregated features.
 
-Input: training.csv
-Output: cluster_df.csv
+### Total demand vs location image
+### Cluster images
 
 # Graph EDA
 
-We plotted the demand vs time per location, which gave us quite a few insights:
+Input: training.csv
+No output files.
+
+We plotted the demand vs time per location, which gave us quite a few insights
+based on time series analysis:
 
 1. We can separate the locations into 3 zones, illustrated in the image below:
 	a. Locations that are only missing a few values in the whole time period (e.g. 10 or so)
@@ -24,14 +31,24 @@ We plotted the demand vs time per location, which gave us quite a few insights:
 (Due to the different traits, I have attempted to separate the locations into 3 groups for modelling and predicting,
 but the overall rmse is similar to when I did not separate the locations. Thus, I gave up on this approach).
 
-2. There is strong daily seasonality - every day, the demand curve for each day has the same general shape.
+### 3 x time graph showing different armounts of NaN values
+
+2. Plotting total demand against time, we observe a trend where there is a dip
+in the middle of the time period, and then an upward climb.
+
+### Trend image
+
+3. There is strong daily seasonality - every day, the demand curve for each day has the same general shape.
 The demand peak at about 12pm ....
 
-3. There is strong weekly seasonality - assuming the first date to be Monday, the Monday following it is very similar compared to other days of the week,
+### Daily seasonality (3 days)
+
+4. There is strong weekly seasonality - assuming the first date to be Monday, the Monday following it is very similar compared to other days of the week,
 same for Tuesday and so on.
 
-4. We also plotted heatmaps based on Day of Week (DoW) and based on hourly period, to see if demand is higher on certain days/hours
+### Weekly seasonality (14 days)
+
+5. We also plotted heatmaps based on Day of Week (DoW) and based on hourly period, to see if demand is higher on certain days/hours
 compared to others.
 
-Input: training.csv
-No output files.
+### Heatmaps x 2
