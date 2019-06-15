@@ -1,4 +1,6 @@
-For more in depth EDA, I approached the issue from two perspectives: Demand vs Geography and Gemand vs Time (graph).
+For more in depth EDA, I approached the issue from two perspectives:
+* Demand vs Geography, and 
+* Gemand vs Time (graph)
 
 # Geo EDA
 
@@ -24,7 +26,7 @@ No output files._
 We plotted the demand vs time per location, which gave us quite a few insights
 based on time series analysis:
 
-1. We can separate the locations into 3 zones, illustrated in the image below: </br>
+1. We can separate the locations into 3 zones, illustrated in the image below:
 * a. Locations that are only missing a few values in the whole time period (e.g. 10 or so)
 * b. Locations that are missing perhaps half their values
 * c. Locations that are missing most of their values (95%+). </br>
