@@ -2,3 +2,6 @@
 __pycache__/
 create mock holdout set.ipynb
 .ipynb_checkpoints
+*.pptx
+tuning_records.txt
+tuning_params.xlsx
