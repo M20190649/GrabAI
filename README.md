@@ -1,7 +1,8 @@
 # GrabAI
 
 Grab organised the Grab AI for SEA Challenges in 2019, hosting 3 different AI challenges.
-This is my submission for the first challenge - Traffic Management.
+This is my submission for the first challenge - Traffic Management, which I completed over the past 3 weeks, spending my weekday nights after work and weekends on this project.
+
 I have included the final end-to-end jupyter notebook, initial notebooks for preprocessing, EDA, model creation, 
 as well as short write ups for each sections, in case anyone is interested.
 
@@ -25,9 +26,7 @@ For Grab officials evaluating my submission, please:
   
 At the end of the notebook execution, the overall holdout rmse will be displayed, and the predicted T+1 to T+5 values are saved as a csv file for inspection.
 
-_Note: As I am slightly confused regarding the way the holdout set is handled, and there is likely not enough time to ask and modify my code, I opted to
-assume that the holdout set contains only the T+1 -> T+5 labels. Thus, my script will read the holdout set and predict for every sample in the holdout set, 
-saving predictions as a .csv file._ 
+_Note: As I am slightly confused regarding the way the holdout set is handled. There is likely not enough time to ask and modify my code as I am working on weekdays. I opted to assume that the holdout set contains only the T+1 -> T+5 labels. Thus, my script will read the holdout set and predict for every sample in the holdout set, saving predictions as a .csv file._ 
 
 # Evaluation results
 
@@ -35,7 +34,9 @@ I have tested the model I have built, using the last 7 days in the train set as 
 
 This has achieved validation rmse: 0.0101 and holdout rmse: 0.0317
 
-![RMSE scores](./images/rmse_val.png?raw=true "RMSE scores")
+<p align="center">
+	<img src="https://raw.githubusercontent.com/ThunderXBlitZ/GrabAI/master/images/rmse_val.png" alt="RMSE scores">
+</p>
 
 # Summary of approach
 
@@ -44,19 +45,24 @@ Detailed writeups for each step (preprocessing, EDA, model building) has been ad
 First, I concat the training set and holdout set, and transform them such that the columns are now the timestamps, while each row refers to 1 of the 1329 locations given.
 This format allows me to efficiently extract values for feature engineering and the T+1 -> T+5 labels in bulk.
 
-![Transform train set to efficient format](./images/df_train_to_transformed.png?raw=true "Transforming train set")
-
-![Efficient features and labels extraction](./images/extraction_feature_label.png?raw=true "Efficient features and labels extraction")
+<p align="center">
+	<img src="https://raw.githubusercontent.com/ThunderXBlitZ/GrabAI/master/images/df_train_to_transformed.png" alt="Transform train set to efficient format">
+	<img src="https://raw.githubusercontent.com/ThunderXBlitZ/GrabAI/master/images/extraction_feature_label.png" alt="Efficient features and labels extraction" width="650" height="270">
+</p>
 
 My key features used are: T and past 30 values, Moving averages of past values etc. (See "LGB Pipeline" page for more).
 As the T value is the best feature by far, I opted to use a rolling forecast model, where we include values up to T to predict T+1,
 up to T+1 t predict T+2 and so on. This approach further boosted the holdout rmse.
 
-![Feature and label extraction in Rolling forecast model](./images/extraction_rolling_forecast.png?raw=true "Feature and label extraction in Rolling forecast model")
+<p align="center">
+	<img src="https://raw.githubusercontent.com/ThunderXBlitZ/GrabAI/master/images/extraction_rolling_forecast.png" alt="Feature and label extraction in Rolling forecast model" width="650" height="270">
+</p>
 
 The prediction results are as follows:
 
-![RMSE scores](./images/rmse_val.png?raw=true "RMSE scores")
+<p align="center">
+	<img src="https://raw.githubusercontent.com/ThunderXBlitZ/GrabAI/master/images/rmse_val.png" alt="RMSE scores">
+</p>
 
 # Further Improvements:
 

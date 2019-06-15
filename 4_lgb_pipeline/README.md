@@ -15,7 +15,9 @@ Given more time, perhaps I could have built an ensemble model, which generally h
 
 As mentioned, with our transformed dataset, we can easily extract features and labels based on an input time T, extract in bulk and execute feature engineering in bulk using Pandas.
 
-![Efficient features and labels extraction](../images/extraction_feature_label.png?raw=true "Efficient features and labels extraction")
+<p align="center">
+	<img src="https://raw.githubusercontent.com/ThunderXBlitZ/GrabAI/master/images/extraction_feature_label.png" alt="Efficient features and labels extraction" width="650" height="270">
+</p>
 
 **Features we used are:**
 1. Past 30 demand values (T -> T-30).
@@ -40,7 +42,9 @@ feature sets for each set of predictions T+1, T+2 etc. instead of using the same
 information up to T. Using the rolling forecast approach, we can include T+1 in the feature set for predicting T+2,
 T+2 for predicting T+3 and so on, as shown in the illustration below. This negates the rise in rmse, resulting in a stable rmse of 0.033 for all prediction sets.
 
-![Feature and label extraction in Rolling forecast model](../images/extraction_rolling_forecast.png?raw=true "Feature and label extraction in Rolling forecast model")
+<p align="center">
+	<img src="https://raw.githubusercontent.com/ThunderXBlitZ/GrabAI/master/images/extraction_rolling_forecast.png" alt="Feature and label extraction in Rolling forecast model" width="650" height="270">
+</p>
 
 # Metrics
 
@@ -52,10 +56,11 @@ of samples for the whole week, resulting in a holdout rmse that better represent
 </br>
 _Holdout rmse: 0.0317_
 
-![Validation vs holdout set](../images/extraction_val_holdout.png?raw=true "Validation vs holdout set")
+<p align="center">
+	<img src="https://raw.githubusercontent.com/ThunderXBlitZ/GrabAI/master/images/extraction_val_holdout.png" alt="Validation vs holdout set" width="650" height="270">
+</p>
 
 ![RMSE scores](../images/rmse_val.png?raw=true "RMSE scores")
-
 
 # Further improvements
 

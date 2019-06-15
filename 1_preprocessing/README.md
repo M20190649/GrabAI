@@ -20,6 +20,7 @@ _Update: I received a notification on the updated FAQ from Grab, in which they i
 
 As mentioned, we transform the dataset such that the columns are the datetimes are the columns, while the geolocations are the rows, and each cell is the demand for the time bucket at the specific location. This allows us to efficiently retrieve ranges of demand values for specific time frames to craft our features and labels.
 
-![Transform train set to efficient format](../images/df_train_to_transformed.png?raw=true "Transforming train set")
-
-![Efficient features and labels extraction](../images/extraction_feature_label.png?raw=true "Efficient features and labels extraction")
+<p align="center">
+	<img src="https://raw.githubusercontent.com/ThunderXBlitZ/GrabAI/master/images/df_train_to_transformed.png" alt="Transform train set to efficient format">
+	<img src="https://raw.githubusercontent.com/ThunderXBlitZ/GrabAI/master/images/extraction_feature_label.png" alt="Efficient features and labels extraction" width="650" height="270">
+</p>

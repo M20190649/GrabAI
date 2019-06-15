@@ -9,7 +9,9 @@ Output: cluster_df.csv_
 
 The locations given are in the form of a grid, on a anonymised region. I plotted the total demand vs location on a map, shown below.
 
-![Total Demand vs Location plotted](../images/demand_total.png?raw=true "Total Demand vs Location plotted")
+<p align="center">
+	<img src="https://raw.githubusercontent.com/ThunderXBlitZ/GrabAI/master/images/demand_total.png" alt="Total Demand vs Location plotted" width="490" height="350">
+</p>
 
 On the assumption that demand in any location is likely to be influenced by demand in its neighboring locations,
 I executed some basic clustering schemes on the locations based on demand and coordinates, such as grouping by latitude/longitude and DBScan.
@@ -35,10 +37,11 @@ _(Due to the different traits, I have attempted to separate the locations into 3
 
 ![Examples of locations with different quantites of NaN values](../images/graph_nan.png?raw=true "Examples of locations with different quantites of NaN values")
 
-2. Plotting total demand against time, we observe a trend where there is a dip in the middle of the time period, and then an upward climb. </br>
-Also, at a glance, we observe a repeating weekly pattern/seasonality.
+2. Plotting total demand against time, we observe a trend where there is a dip in the middle of the time period, and then an upward climb. Also, at a glance, we observe a repeating weekly pattern/seasonality.
 
-![General Trend](../images/graph_trend.png?raw=true "General Trend")
+<p align="center">
+	<img src="https://raw.githubusercontent.com/ThunderXBlitZ/GrabAI/master/images/graph_trend.png" alt="General Trend" width="400" height="200">
+</p>
 
 3. There is a somewhat strong daily seasonality - every day, the demand curve for each day has the same general shape.
 The demand climbs gradually and peaks at about 7am until 2pm, falling to a low at 7pm before picking up again. 
@@ -55,6 +58,7 @@ Each heatmap row represents a location, and the columns represent the day/hour. 
 We can see that Day 4 and 5 (out of Day 0 to Day 6) generally have higher demands than other days, thus possibly being Saturday and Sunday.
 Also, there is higher demand in the first half of the day (12am to 3pm) than the second half (3pm to 12am).
 
-![Day of Week Heatmap](../images/heatmap_dow.png?raw=true "Heatmap by day of week")
-
-![Hourly Heatmap](../images/heatmap_hourly.png?raw=true "Heatmap by hours")
+<p align="center">
+	<img src="https://raw.githubusercontent.com/ThunderXBlitZ/GrabAI/master/images/heatmap_dow.png" alt="Heatmap by day of week" width="770" height="420">
+	<img src="https://raw.githubusercontent.com/ThunderXBlitZ/GrabAI/master/images/heatmap_hourly.png" alt="Heatmap by hours" width="770" height="150">
+</p>
