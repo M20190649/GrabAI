@@ -7,11 +7,15 @@ allowing us to prototype quickly throughout this 3-week competition. Another adv
 of this algorithm compared to other boosting random forests, and even neural networks!
 
 I have attempted to use the same feature set in a simple feed-forward network, which yielded much poorer results
-compared to LGBM even after tuning. I also built a LSTM model for comparison, which yielded simialr holdout rmse (0.033),
-however, due to my amatuer knowledge in LSTM and lack of time, I have chose not to continue with this approach.
-Given more time, perhaps I could have built an ensemble model which generally has even better performance than a single model.
+compared to LGBM even after tuning. I also built a basic LSTM model for comparison, which yielded similar holdout rmse (0.033),
+which validates our LGBM model. However, due to lack of time, I have chose not to continue with this approach.
+Given more time, perhaps I could have built an ensemble model, which generally has even better performance than a single model.
 
 # Features
+
+As mentioned, with our transformed dataset, we can easily extract features and labels based on an input time T, extract in bulk and execute feature engineering in bulk using Pandas.
+
+![Efficient features and labels extraction](../images/extraction_feature_label.png?raw=true "Efficient features and labels extraction")
 
 Features we used are:
 1. Past 30 demand values (T -> T-30).
@@ -33,8 +37,10 @@ One key trend we noticed was that the rmse will increase by about 0.05 as we go 
 This is a rather substantial increase, as T+5 would be around 0.05 rmse. Considering that the T demand value
 is the most important feature by far, I opted to use a rolling forecast approach, where we will generate separate
 feature sets for each set of predictions T+1, T+2 etc. instead of using the same feature set which only includes 
-information up to T. Using the rolling forecast approach, we cna include T+1 in the feature set for predicting T+2,
-T+2 for predicting T+3 and so on. This negates the rise in rmse, resulting in a stable rmse of 0.033 for all prediction sets.
+information up to T. Using the rolling forecast approach, we can include T+1 in the feature set for predicting T+2,
+T+2 for predicting T+3 and so on, as shown in the illustration below. This negates the rise in rmse, resulting in a stable rmse of 0.033 for all prediction sets.
+
+![Feature and label extraction in Rolling forecast model](../images/extraction_rolling_forecast.png?raw=true "Feature and label extraction in Rolling forecast model")
 
 # Metrics
 
@@ -45,11 +51,11 @@ We used a week of samples with various T values, to create a holdout set. I beli
 of samples for the whole week, resulting in a holdout rmse that better represents the average error.
 Holdout rmse: 0.033
 
+![Validation vs holdout set](../images/extraction_val_holdout.png?raw=true "Validation vs holdout set")
+
+![RMSE scores](../images/rmse_val.png?raw=true "RMSE scores")
+
+
 # Further improvements
 
-Initially, I applied groupby on the dataset, aggregating the dataset based on cluster ids previously generated in "Geo_EDA.ipynb".
-I found that aggregating the dataset by latitude/longitude, and then adding the set of aggregated features, same as the existing features,
-tends to reduce rmse by 0.005 to 0.01. However, this results in much higher computation time and complexity, thus I dropped this approach
-for the competition.
-
-Analysis on rmse range:
+Initially, I applied groupby on the dataset, aggregating the dataset based on cluster ids previously generated in "Geo_EDA.ipynb". I found that aggregating the dataset by latitude/longitude, and then adding the set of aggregated features, same as the existing features, as additional features, tends to reduce rmse by 0.005 to 0.01. However, this results in much higher computation time and complexity, thus I dropped this approach for the competition.
