@@ -17,7 +17,7 @@ As mentioned, with our transformed dataset, we can easily extract features and l
 
 ![Efficient features and labels extraction](../images/extraction_feature_label.png?raw=true "Efficient features and labels extraction")
 
-Features we used are:
+**Features we used are:**
 1. Past 30 demand values (T -> T-30).
 2. Past 30 demand values, 1 week prior (T -> T-30, 1 week prior).
 3. Next 30 demand values, 1 week prior (T+1 -> T+31, 1 week prior).
@@ -49,7 +49,8 @@ due to the high peak at noon resulting in larger rmse, while the dips have lower
 
 We used a week of samples with various T values, to create a holdout set. I believe this represents a good distribution
 of samples for the whole week, resulting in a holdout rmse that better represents the average error.
-Holdout rmse: 0.033
+</br>
+_Holdout rmse: 0.0317_
 
 ![Validation vs holdout set](../images/extraction_val_holdout.png?raw=true "Validation vs holdout set")
 

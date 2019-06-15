@@ -11,17 +11,17 @@ for reference's sake)._
 I used a simple approach to fill up the missing values. 
 
 1. Due to the strong weekly seasonality/pattern I first fill as much missing values as possible using a seasonality-based approach (which filled 1/3 of the missing values).
-* a. I separated the dataset by week, and averaged the data to obtain a weekly pattern.
-* b. I obtained the weekly ratio of each week's average to the first week's average.
-* c. I filled in the missing values for each week, by multiplying the week's ratio (b) on the weekly pattern (a).
+..a. I separated the dataset by week, and averaged the data to obtain a weekly pattern.
+..b. I obtained the weekly ratio of each week's average to the first week's average.
+..c. I filled in the missing values for each week, by multiplying the week's ratio (b) on the weekly pattern (a). </br>
 _Due to Pandas' in-built way of avoiding NaNs in calculations, values for which we have no weekly-based data are ignored, while those that do are filled in._
 
 ![Weekly Seasonality](../images/graph_weekly.png?raw=true "Weekly Seasonality")
 	
-2. To fill in the remaining values, I used an average of bbfill, ffill and interpolation (provided by Pandas).
+2. To fill in the remaining values, I used an average of bfill, ffill and interpolation (provided by Pandas).
 
 3. I also added some noise to the generated values to simulate a real-life scenario.
 
-![Graph with all NaN values filled, and additional noise](../images/graph_noise.png?raw=true "Graph with all NaN values filled, and additional noise")
-
 The output is a filled training set, for use in modelling and predictions.
+
+![Graph with all NaN values filled, and additional noise](../images/graph_noise.png?raw=true "Graph with all NaN values filled, and additional noise")
